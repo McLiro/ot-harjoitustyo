@@ -1,5 +1,9 @@
 # Ohjelmistotekniikka, harjoitustyö
 
-Tällä hetkellä *suunnitelmana* tehdä joko **shakki** tai **tammi** peli.
+Tällä hetkellä *suunnitelmana* tehdä **laivanupotus** peli.
+
+[Vaatimusmäärittely](dokumentaatio/vaatimusmaarittely.md)
+
+[Työaikakirjanpito](dokumentaatio/tyoaikakirjanpito.md)
 
 [Laskarit](laskarit/)
