@@ -145,6 +145,18 @@ files = [
 ]
 
 [[package]]
+name = "invoke"
+version = "2.2.1"
+description = "Pythonic task execution"
+optional = false
+python-versions = ">=3.6"
+groups = ["main"]
+files = [
+    {file = "invoke-2.2.1-py3-none-any.whl", hash = "sha256:2413bc441b376e5cd3f55bb5d364f973ad8bdd7bf87e53c79de3c11bf3feecc8"},
+    {file = "invoke-2.2.1.tar.gz", hash = "sha256:515bf49b4a48932b79b024590348da22f39c4942dff991ad1fb8b8baea1be707"},
+]
+
+[[package]]
 name = "packaging"
 version = "26.0"
 description = "Core utilities for Python packages"
@@ -282,4 +294,4 @@ dev = ["argcomplete", "attrs (>=19.2)", "hypothesis (>=3.56)", "mock", "requests
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.12"
-content-hash = "aa3e267f008e3ebe5a8e56c9d4a4e8a6fd72a3519bb8371c9dca7f21d5c0a664"
+content-hash = "6e69ca7bfc7978fe35f1c7eaa75e5e33885cdabbff37a58d38c76b9a4d1c0436"
