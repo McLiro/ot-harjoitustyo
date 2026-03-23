@@ -2,8 +2,8 @@
 
 Tällä hetkellä *suunnitelmana* tehdä **laivanupotus** peli.
 
-[Vaatimusmäärittely](dokumentaatio/vaatimusmaarittely.md)
+[Vaatimusmäärittely](battleships/dokumentaatio/vaatimusmaarittely.md)
 
-[Työaikakirjanpito](dokumentaatio/tyoaikakirjanpito.md)
+[Työaikakirjanpito](battleships/dokumentaatio/tyoaikakirjanpito.md)
 
 [Laskarit](laskarit/)
