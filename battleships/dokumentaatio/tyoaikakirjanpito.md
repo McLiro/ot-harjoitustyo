@@ -2,4 +2,5 @@
 
 | Päivä | Aika (h) | Mitä tein  |
 | :----:|:-----| :-----|
-| 16.3. | 0,5    | Vaatimusmäärittelyn laatiminen. |
+| 16.3. | 0,5  | Vaatimusmäärittelyn laatiminen. |
+| 23.3. | 2,0  | Pelisilmukan koodi ja tarvittavien tiedostojen luonti. |
