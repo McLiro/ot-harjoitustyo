@@ -1,15 +1,19 @@
 import pygame
 from constants import SCREEN_WIDTH, SCREEN_HEIGHT, FPS, CAPTION
 from renderer import Renderer
-from states import Menu, Start
+from states import Menu
 
 class GameEngine():
     def __init__(self):
         self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+        self.caption = pygame.display.set_caption(CAPTION)
         self.clock = pygame.time.Clock()
         self.renderer = Renderer(self.screen)
         self.running = True
-        self.state = Menu()
+        self.state = Menu(self)
+
+    def change_state(self, state):
+        self.state = state(self)
 
     def run(self):
         while self.running:

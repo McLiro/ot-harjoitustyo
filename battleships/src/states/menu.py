@@ -1,11 +1,32 @@
+import pygame
 from .base import State
+from sprites.ui import Button, Label
 
 class Menu(State):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, game):
+        super().__init__(game)
+
+        self.title_font = pygame.font.SysFont("Arial", 50)
+        self.button_font = pygame.font.SysFont("Arial", 30)
+
+        self.ui_elements = [
+            Label(640, 30, "BATTLESHIPS", self.title_font, pygame.Color('white'), True), #TITLE
+            Button(640, 300, 200, 100, "START", pygame.Color('white'), pygame.Color('whitesmoke'), pygame.Color('black'), self.button_font, True) #START BUTTON
+        ]
+
         
     def handle_events(self, events):
-        pass
+        mouse_pos = pygame.mouse.get_pos()
 
+    
     def update(self, dt):
-        pass
+        mouse_pos = pygame.mouse.get_pos()
+
+        for element in self.ui_elements:
+            if hasattr(element, 'update'):
+                element.update(mouse_pos)
+
+
+    def draw(self, screen):
+        for element in self.ui_elements:
+            element.draw(screen)
