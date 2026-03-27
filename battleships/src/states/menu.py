@@ -6,8 +6,8 @@ class Menu(State):
     def __init__(self, game):
         super().__init__(game)
 
-        self.title_font = pygame.font.SysFont("Arial", 50)
-        self.button_font = pygame.font.SysFont("Arial", 30)
+        self.title_font = pygame.font.Font(None, 50)
+        self.button_font = pygame.font.Font(None, 30)
 
         self.ui_elements = [
             Label(640, 30, "BATTLESHIPS", self.title_font, pygame.Color('white'), True), #TITLE
