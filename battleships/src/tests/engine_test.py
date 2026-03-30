@@ -25,8 +25,14 @@ def test_change_state():
     engine = GameEngine()
     mock_state = MagicMock()
 
-    engine.change_state(mock_state)
-    mock_state.assert_called_once_with(engine)
+    engine.state_dict["MOCK"] = mock_state
+
+    engine.state.done = True
+    engine.state.next_state = "MOCK"
+
+    engine.change_state()
+
+    assert engine.state == mock_state
 
 def test_quit_event():
     engine = GameEngine()
