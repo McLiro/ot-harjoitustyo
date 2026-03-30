@@ -23,11 +23,6 @@ class Button:
             self.current_color = self.hover_color
         else:
             self.current_color = self.color
-
-    def is_clicked(self, event, mouse_pos):
-            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                return self.rect.collidepoint(mouse_pos)
-            return False
     
     def draw(self, screen):
         pygame.draw.rect(screen, self.current_color, self.rect, border_radius=10)
