@@ -25,7 +25,7 @@ class GameEngine():
 
     def _tick(self):
         return self.clock.tick(FPS) / 1000.0
-    
+
     def _handle_events(self, events):
         for event in events:
             if event.type == pygame.QUIT:
