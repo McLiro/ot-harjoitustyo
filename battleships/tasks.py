@@ -20,3 +20,7 @@ def coverage(c):
 @task(coverage)
 def coverage_report(c):
     run_cmd(c, "coverage html")
+
+@task
+def lint(c):
+    run_cmd(c, "pylint src")
