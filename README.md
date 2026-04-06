@@ -26,3 +26,22 @@ Käynnistä sovellus komennolla:
 ```
 poetry run invoke start
 ```
+
+## Komentorivi komennot
+
+### Testaus
+Testit voi suorittaa komennolla:
+```
+poetry run invoke test
+```
+
+Testikattavuusraportin voi luoda komennolla:
+```
+poetry run invoke coverage-report
+```
+
+### Pylint
+Pylin tarkistuksen voi tehdä komennolla:
+```
+poetry run invoke lint
+```
