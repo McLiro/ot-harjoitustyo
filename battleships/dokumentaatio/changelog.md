@@ -8,3 +8,5 @@
 
 - Käyttäjä voi siirtyä pelin aloitus näkymään.
 - Käyttäjä voi valita eri laivoista.
+- Tehty logiikkaa pelin laudalle ja laivojen asettamiselle.
+- Tehty testit laudan ja laivojen asetuksen logiikalle.
