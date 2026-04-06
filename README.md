@@ -2,7 +2,7 @@
 
 # Laivanupotus peli
 
-Sovelluksessa käyttäjä voi pelata laivanupotus peliä tietokonetta vastaan.
+Sovelluksessa käyttäjä voi pelata laivanupotus peliä tietokonetta vastaan. Ennen pelin alkua pelaaja asettaa ruudukolle laivat haluamaansa järjestykseen, jonka jälkeen pelin voi aloittaa. Pelissä pelaajat eivät näe vastustajan laivojen sijaintia, vaan arvaavat vuorotellen laivojen olevan tietyssä kohtaa, jonka jälkeen peli merkitsee tuliko osuma. Kun jokaiseen laivan kohtaan on osuttu, uppoaa laiva, jonka peli myös merkitsee. Pelin voittaa se, upottaa vastustajan laivat ensin.
 
 ## Dokumentaatio
 
@@ -14,7 +14,9 @@ Sovelluksessa käyttäjä voi pelata laivanupotus peliä tietokonetta vastaan.
 
 ## Asennus
 
-Kloonaa repositorio ja asernna riippuvuudet komennolla:
+Kloonaa repositorio ja mene 'battleships' hakemistoon.
+
+Asenna riippuvuudet komennolla:
 
 ```
 poetry install
