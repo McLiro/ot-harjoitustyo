@@ -1,8 +1,8 @@
 import pygame
-from sprites.ui import Grid, Ship, Label
-from .base import State
+from sprites.ui import Grid, Ship
 from logic.board_logic import BoardLogic
 from logic.ship_logic import ShipLogic
+from .base import State
 
 
 class Start(State):
@@ -87,7 +87,7 @@ class Start(State):
         mouse_y = mouse_pos[1] - 50
 
         return (mouse_x // self.grid_size, mouse_y // self.grid_size)
-    
+
 
     def get_pixels(self, x, y):
         return (50 + x * self.grid_size, 50 + y * self.grid_size)
