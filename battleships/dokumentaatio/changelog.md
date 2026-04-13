@@ -10,3 +10,4 @@
 - Käyttäjä voi valita eri laivoista.
 - Tehty logiikkaa pelin laudalle ja laivojen asettamiselle.
 - Tehty testit laudan ja laivojen asetuksen logiikalle.
+- Käyttäjä voi asettaa laivoja peliruudukkoon.
