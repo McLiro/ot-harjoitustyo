@@ -8,6 +8,8 @@ Sovelluksessa käyttäjä voi pelata laivanupotus peliä tietokonetta vastaan. E
 
 [Vaatimusmäärittely](battleships/dokumentaatio/vaatimusmaarittely.md)
 
+[Arkkitehtuuri](battleships/dokumentaatio/arkkitehtuuri.md)
+
 [Työaikakirjanpito](battleships/dokumentaatio/tyoaikakirjanpito.md)
 
 [Changelog](battleships/dokumentaatio/changelog.md)
