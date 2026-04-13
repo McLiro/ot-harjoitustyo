@@ -2,6 +2,12 @@ import pygame
 
 class Ship:
     def __init__(self, x, y, width, height, cell_size):
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
+        self.border_width = 3
+
         self.cell_size = cell_size
         self.rect = pygame.Rect(x, y, width * cell_size, height * cell_size)
 
@@ -13,6 +19,10 @@ class Ship:
 
         self.placed = False
         self.selected = False
+
+    
+    def border_color(self, color):
+        return tuple(max(0, int(c * 0.6)) for c in color)
 
 
     def update(self, mouse_pos):
@@ -28,3 +38,6 @@ class Ship:
 
     def draw(self, screen):
         pygame.draw.rect(screen, self.current_color, self.rect)
+
+        border_color = self.border_color(self.current_color)
+        pygame.draw.rect(screen, border_color, self.rect, self.border_width)

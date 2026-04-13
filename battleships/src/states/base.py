@@ -25,3 +25,6 @@ class State():
 
         for ship in self.ships:
             ship.draw(screen)
+
+        for ship in self.placed_ships:
+            ship.draw(screen)
