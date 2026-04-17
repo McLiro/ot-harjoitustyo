@@ -1,5 +1,5 @@
 import pygame
-from sprites.ui import Grid, Ship, Image, Label
+from sprites.ui import Grid, Ship, Image, Label, Button
 from logic.board_logic import BoardLogic
 from logic.ship_logic import ShipLogic
 from .base import State
@@ -19,10 +19,15 @@ class Start(State):
         self.rotation_text = Label(700, 50, "Press R rotate!", font, self.white)
         self.rotation_image = Image(700, 100, 270, "arrow.png")
 
+        self.reset_button = Button(700, 200, 200, 100, "RESET", pygame.Color('white'),
+                   pygame.Color('whitesmoke'), pygame.Color('black'),
+                   font, True)
+
         self.ui_elements = [
             self.grid,
             self.rotation_text,
-            self.rotation_image
+            self.rotation_image,
+            self.reset_button
         ]
 
         self.carrier = Ship(900, 50, 5, 1, self.grid_size)
@@ -49,6 +54,9 @@ class Start(State):
         # SELECTION
         for event in events:
             if event.type == pygame.MOUSEBUTTONDOWN:
+                if self.reset_button.rect.collidepoint(event.pos):
+                    self.reset_placement()
+
                 if self.selected is not None:
                     length = self.selected.width
                     coords = self.get_coords(event.pos)
@@ -71,7 +79,7 @@ class Start(State):
                 clicked_ship = None
 
                 for ship in self.ships:
-                    if ship.rect.collidepoint(event.pos):
+                    if ship.rect.collidepoint(event.pos) and ship.placed == False:
                         clicked_ship = ship
                         break
 
@@ -99,3 +107,11 @@ class Start(State):
 
     def get_pixels(self, x, y):
         return (50 + x * self.grid_size, 50 + y * self.grid_size)
+    
+    def reset_placement(self):
+        for ship in self.ships:
+            ship.placed = False
+            ship.selected = False
+
+        self.placed_ships = []
+        self.board.reset_board()

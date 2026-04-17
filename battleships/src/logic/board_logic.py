@@ -34,3 +34,7 @@ class BoardLogic:
                 return False
 
         return True
+
+    def reset_board(self):
+        self.grid = [[None for _ in range(self.board_size)] for _ in range(self.board_size)]
+        self.ships = []
