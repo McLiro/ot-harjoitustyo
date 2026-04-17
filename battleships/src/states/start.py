@@ -1,5 +1,5 @@
 import pygame
-from sprites.ui import Grid, Ship
+from sprites.ui import Grid, Ship, Image, Label
 from logic.board_logic import BoardLogic
 from logic.ship_logic import ShipLogic
 from .base import State
@@ -15,8 +15,14 @@ class Start(State):
         self.white = pygame.color.Color('white')
         self.grid = Grid(50, 50, self.grid_size, self.white)
 
+        font = pygame.font.Font(None, 30)
+        self.rotation_text = Label(700, 50, "Press R rotate!", font, self.white)
+        self.rotation_image = Image(700, 100, 270, "arrow.png")
+
         self.ui_elements = [
-            self.grid
+            self.grid,
+            self.rotation_text,
+            self.rotation_image
         ]
 
         self.carrier = Ship(900, 50, 5, 1, self.grid_size)
@@ -78,8 +84,10 @@ class Start(State):
                 if event.key == pygame.K_r:
                     if self.rotation == "V":
                         self.rotation = "H"
+                        self.rotation_image.rotate(270)
                     else:
                         self.rotation = "V"
+                        self.rotation_image.rotate(180)
 
 
     def get_coords(self, mouse_pos):
