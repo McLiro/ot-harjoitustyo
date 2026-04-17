@@ -79,7 +79,7 @@ class Start(State):
                 clicked_ship = None
 
                 for ship in self.ships:
-                    if ship.rect.collidepoint(event.pos) and ship.placed == False:
+                    if ship.rect.collidepoint(event.pos) and not ship.placed:
                         clicked_ship = ship
                         break
 
@@ -107,7 +107,7 @@ class Start(State):
 
     def get_pixels(self, x, y):
         return (50 + x * self.grid_size, 50 + y * self.grid_size)
-    
+
     def reset_placement(self):
         for ship in self.ships:
             ship.placed = False

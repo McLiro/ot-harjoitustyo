@@ -1,20 +1,18 @@
-import unittest
+import os
 import pytest
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock
 import pygame
+
+os.environ['SDL_VIDEODRIVER'] = 'dummy'
+
 from engine import GameEngine
 
-
 @pytest.fixture(autouse=True)
-def mock_pygame():
-    with patch('pygame.display.set_mode'), \
-         patch('pygame.display.set_caption'), \
-         patch('pygame.font.init'), \
-         patch('pygame.font.Font'):
-        
-        pygame.init()
-        yield
-        pygame.quit()
+def init_dummy_pygame():
+    pygame.init()
+    pygame.display.set_mode((1, 1))
+    yield
+    pygame.quit()
 
 def test_init():
     engine = GameEngine()
@@ -36,7 +34,7 @@ def test_change_state():
 
 def test_quit_event():
     engine = GameEngine()
-    mock_event = MagicMock
+    mock_event = MagicMock()
     mock_event.type = pygame.QUIT
 
     engine._handle_events([mock_event])

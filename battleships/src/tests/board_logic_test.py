@@ -41,3 +41,15 @@ def test_overlapping_ship():
     board.place_ship(overlapping_ship)
 
     assert len(board.ships) == 1
+
+def test_board_reset():
+    board = BoardLogic(10)
+    ship = ShipLogic(2, 2, 3, "V")
+
+    board.place_ship(ship)
+
+    assert len(board.ships) == 1
+
+    board.reset_board()
+
+    assert len(board.ships) == 0
