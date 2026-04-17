@@ -13,7 +13,10 @@ Sovellus mahdollistaa laivanupotus pelin pelaamisen tietokonetta vastaan.
 - Pelin tila tallentuu jokaisen siirron jälkeen tietokantaan.
   - Vanhan pelin pystyy jatkamaan myöhemmin.
 - Yksinkertainen 2D pelilauta, jonka kautta peliä pelataan.
-  - Oma näkymä pelin aloitukselle ja mahdolliselle konfiguraatiolle.
+  - Omat näkymät pelin eri vaiheille:
+    - Aloitus (valmis)
+    - Laivojen asettelu (valmis)
+    - Pelinäkymä
 
 ## Jatkokehitysideoita
 

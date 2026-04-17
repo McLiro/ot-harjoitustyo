@@ -8,4 +8,5 @@
 | 30.3. | 3,0  | Peli ruudukko ja laivojen valinta. |
 |  6.4. | 1,0  | Laivojen asettamisen logiikka ja niiden testit. |
 | 13.4. | 3,5  | Laivojen asettamisen graafinen näkymä. |
-| yht.  | 13,0 |
+| 17.4. | 2,5  | Laivojen asetusnäkymä valmis. |
+| yht.  | 15,5 |
