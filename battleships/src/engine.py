@@ -1,7 +1,7 @@
 import pygame
 from constants import SCREEN_WIDTH, SCREEN_HEIGHT, FPS, CAPTION
 from renderer import Renderer
-from states import Menu, Start
+from states import Menu, Start, Game
 
 class GameEngine():
     def __init__(self):
@@ -11,17 +11,12 @@ class GameEngine():
         self.renderer = Renderer(self.screen)
         self.running = True
 
-        self.state_dict = {
-            "MENU": Menu(self),
-            "START": Start(self),
-        }
-
-        self.state = self.state_dict["MENU"]
+        self.state = Menu(self)
 
     def change_state(self):
         self.state.done = False
 
-        self.state = self.state_dict[self.state.next_state]
+        self.state = self.state.next_state
 
     def run(self):
         while self.running:

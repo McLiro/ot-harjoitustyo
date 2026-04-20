@@ -3,11 +3,14 @@ from sprites.ui import Grid, Ship, Image, Label, Button
 from logic.board_logic import BoardLogic
 from logic.ship_logic import ShipLogic
 from .base import State
+from .game import Game
 
 
 class Start(State):
     def __init__(self, game):
         super().__init__(game)
+
+        self.game = game
 
         self.board = BoardLogic(10)
 
@@ -22,12 +25,17 @@ class Start(State):
         self.reset_button = Button(700, 200, 200, 100, "RESET", pygame.Color('white'),
                    pygame.Color('whitesmoke'), pygame.Color('black'),
                    font, True)
+        
+        self.start_button = Button(700, 325, 200, 100, "START", pygame.Color('gray25'),
+                   pygame.Color('gray25'), pygame.Color('black'),
+                   font, True)
 
         self.ui_elements = [
             self.grid,
             self.rotation_text,
             self.rotation_image,
-            self.reset_button
+            self.reset_button,
+            self.start_button
         ]
 
         self.carrier = Ship(900, 50, 5, 1, self.grid_size)
@@ -56,6 +64,11 @@ class Start(State):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if self.reset_button.rect.collidepoint(event.pos):
                     self.reset_placement()
+
+                if self.start_button.rect.collidepoint(event.pos):
+                    if len(self.placed_ships) >= 5:
+                        self.next_state = Game(self.game, self.board)
+                        self.done = True
 
                 if self.selected is not None:
                     length = self.selected.width
@@ -88,6 +101,10 @@ class Start(State):
 
                 self.selected = clicked_ship
 
+            if len(self.placed_ships) >= 5:
+                self.start_button.color = pygame.Color('white')
+                self.start_button.hover_color = pygame.Color('whitesmoke')
+
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_r:
                     if self.rotation == "V":
@@ -115,3 +132,5 @@ class Start(State):
 
         self.placed_ships = []
         self.board.reset_board()
+        self.start_button.color = pygame.Color('gray25')
+        self.start_button.hover_color = pygame.Color('gray25')

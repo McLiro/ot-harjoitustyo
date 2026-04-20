@@ -1,11 +1,14 @@
 import pygame
 from sprites.ui import Button, Label
 from .base import State
+from .start import Start
 
 
 class Menu(State):
     def __init__(self, game):
         super().__init__(game)
+
+        self.game = game
 
         self.title_font = pygame.font.Font(None, 50)
         self.button_font = pygame.font.Font(None, 30)
@@ -25,7 +28,7 @@ class Menu(State):
         for event in events:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if self.start_button.rect.collidepoint(event.pos):
-                    self.next_state = "START"
+                    self.next_state = Start(self.game)
                     self.done = True
 
 
