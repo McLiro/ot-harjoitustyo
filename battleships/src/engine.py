@@ -1,7 +1,7 @@
 import pygame
 from constants import SCREEN_WIDTH, SCREEN_HEIGHT, FPS, CAPTION
 from renderer import Renderer
-from states import Menu, Start, Game
+from states import Menu
 
 class GameEngine():
     def __init__(self):

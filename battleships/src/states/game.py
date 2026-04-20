@@ -1,8 +1,7 @@
 import pygame
-from .base import State
 from sprites.ui import Grid, Ship
 from logic.board_logic import BoardLogic
-from logic.ship_logic import ShipLogic
+from .base import State
 
 class Game(State):
     def __init__(self, game, board: BoardLogic):
@@ -40,12 +39,12 @@ class Game(State):
 
     def get_pixels(self, x, y):
         return (750 + x * self.grid_size, 50 + y * self.grid_size)
-    
+
     def set_player_ships(self):
 
         def get_pixels(x, y):
             return (50 + x * self.grid_size, 50 + y * self.grid_size)
-        
+
         for ship in self.player_board.ships:
             x, y = get_pixels(ship.x, ship.y)
             length = ship.length

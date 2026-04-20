@@ -5,6 +5,9 @@ class State():
         self.done = False
         self.next_state = None
         self.game = game
+        self.ui_elements = []
+        self.ships = []
+        self.placed_ships = []
 
 
     def update(self, dt):

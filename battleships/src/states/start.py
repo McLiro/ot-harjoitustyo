@@ -25,7 +25,7 @@ class Start(State):
         self.reset_button = Button(700, 200, 200, 100, "RESET", pygame.Color('white'),
                    pygame.Color('whitesmoke'), pygame.Color('black'),
                    font, True)
-        
+
         self.start_button = Button(700, 325, 200, 100, "START", pygame.Color('gray25'),
                    pygame.Color('gray25'), pygame.Color('black'),
                    font, True)

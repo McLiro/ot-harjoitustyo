@@ -53,3 +53,10 @@ def test_board_reset():
     board.reset_board()
 
     assert len(board.ships) == 0
+
+def test_ai_board_generation():
+    board = BoardLogic(10)
+
+    board.generate_board([5, 4, 3, 3, 2])
+
+    assert len(board.ships) == 5

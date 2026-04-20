@@ -23,10 +23,8 @@ def test_change_state():
     engine = GameEngine()
     mock_state = MagicMock()
 
-    engine.state_dict["MOCK"] = mock_state
-
     engine.state.done = True
-    engine.state.next_state = "MOCK"
+    engine.state.next_state = mock_state
 
     engine.change_state()
 
