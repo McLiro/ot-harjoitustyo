@@ -1,3 +1,6 @@
+import random
+from .ship_logic import ShipLogic
+
 class BoardLogic:
     def __init__(self, board_size):
         self.ships = []
@@ -38,3 +41,19 @@ class BoardLogic:
     def reset_board(self):
         self.grid = [[None for _ in range(self.board_size)] for _ in range(self.board_size)]
         self.ships = []
+
+    def generate_board(self, ship_lengths):
+        for length in ship_lengths:
+            placed = False
+
+            while not placed:
+                ship = self.generate_ship(length)
+
+                if self.place_ship(ship):
+                    placed = True
+
+    def generate_ship(self, length):
+        x = random.randint(0, 9)
+        y = random.randint(0, 9)
+        rotation = random.choice(["H", "V"])
+        return ShipLogic(x, y, length, rotation)
