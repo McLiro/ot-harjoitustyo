@@ -9,4 +9,5 @@
 |  6.4. | 1,0  | Laivojen asettamisen logiikka ja niiden testit. |
 | 13.4. | 3,5  | Laivojen asettamisen graafinen näkymä. |
 | 17.4. | 2,5  | Laivojen asetusnäkymä valmis. |
+| 20.4. | 3,0  | Pelinäkymän aloitus ja tietokone generoi oman lautansa. |
 | yht.  | 15,5 |

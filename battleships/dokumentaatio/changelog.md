@@ -17,3 +17,5 @@
 - Käyttäjä voi kääntää laivojen suuntaa.
 - Käyttäjä voi asettaa vain oikean määrän laivoja.
 - Käyttäjä voi resetoida laivojen asettelun.
+- Käyttäjä voi siirtyä peli näkymään.
+- Tietokone generoi itselleen laivojen asetelman.
