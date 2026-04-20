@@ -14,6 +14,8 @@ Sovelluksessa käyttäjä voi pelata laivanupotus peliä tietokonetta vastaan. E
 
 [Changelog](battleships/dokumentaatio/changelog.md)
 
+[GitHub release](https://github.com/McLiro/ot-harjoitustyo/releases/latest)
+
 ## Asennus
 
 Kloonaa repositorio ja mene 'battleships' hakemistoon.
