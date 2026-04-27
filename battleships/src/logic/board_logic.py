@@ -5,8 +5,8 @@ class BoardLogic:
     """Class for handling the game logic for placing down ships and keeping track of the state of the board.
 
     Attributes:
-        ships: Ships on the game board.
-        hits: Coordinates shot at by the player.
+        ships: A list of ships on the game board.
+        shots: A list of tuples representing shots.
         board_size: Variable for setting the size of the board.
         grid: Nested list, containing either a Ship class or None.
     """
@@ -18,7 +18,7 @@ class BoardLogic:
             board_size (int): Size of the board.
         """
         self.ships = []
-        self.hits = []
+        self.shots = []
         self.board_size = board_size
         self.grid = [[None for _ in range(self.board_size)] for _ in range(self.board_size)]
 
@@ -102,3 +102,17 @@ class BoardLogic:
         y = random.randint(0, 9)
         rotation = random.choice(["H", "V"])
         return ShipLogic(x, y, length, rotation)
+
+    def shoot_at_target(self, coords):
+        x, y = coords
+        target = self.grid[x][y]
+
+        if target is None:
+            return False
+        
+        if coords in self.shots:
+            return False
+        
+        target.hp -= 1
+        self.shots.append(coords)
+        return True

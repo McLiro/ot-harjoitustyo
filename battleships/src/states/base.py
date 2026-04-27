@@ -8,6 +8,8 @@ class State():
         self.ui_elements = []
         self.ships = []
         self.placed_ships = []
+        self.hitmarkers = []
+        self.sunk_ships = []
 
 
     def update(self, dt):
@@ -22,7 +24,7 @@ class State():
                 ship.update(mouse_pos)
 
 
-    def draw(self, screen):
+    def draw(self, screen): # elements are drawn in order:
         for element in self.ui_elements:
             element.draw(screen)
 
@@ -30,4 +32,10 @@ class State():
             ship.draw(screen)
 
         for ship in self.placed_ships:
+            ship.draw(screen)
+
+        for hitmarker in self.hitmarkers:
+            hitmarker.draw(screen)
+
+        for ship in self.sunk_ships:
             ship.draw(screen)

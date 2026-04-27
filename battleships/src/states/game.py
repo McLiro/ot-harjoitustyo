@@ -1,6 +1,6 @@
 import pygame
-from sprites.ui import Grid, Ship
-from logic.board_logic import BoardLogic
+from sprites.ui import Grid, Ship, HitMarker
+from logic import BoardLogic, Easy, Medium
 from .base import State
 
 class Game(State):
@@ -11,6 +11,7 @@ class Game(State):
         self.player_board = board
         self.ai_board = BoardLogic(10)
         self.ai_board.generate_board([5, 4, 3, 3, 2])
+        self.ai_logic = self.start_ai_logic(self.player_board, self.difficulty)
 
         white = pygame.Color('white')
         self.grid_size = 50
@@ -19,14 +20,19 @@ class Game(State):
 
         self.ui_elements = [self.player_grid,
                             self.ai_grid]
+        
+        self.hitmarkers = []
 
-        self.ships = []
-        self.placed_ships = [] # PLAYER SHIPS
+        self.sunk_ships = []
 
-        self.set_player_ships()
+        self.ships = self.set_ships(self.ai_board, True) # AI SHIPS
+        self.placed_ships = self.set_ships(self.player_board, False) # PLAYER SHIPS
 
     def handle_events(self, events):
-        pass
+        for event in events:
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                coords = self.get_coords(event.pos)
+                
 
     def update_board(self, board: BoardLogic):
         pass
@@ -38,22 +44,38 @@ class Game(State):
         return (mouse_x // self.grid_size, mouse_y // self.grid_size)
 
 
-    def get_pixels(self, x, y):
+    def get_ai_grid_pixels(self, x, y):
         return (750 + x * self.grid_size, 50 + y * self.grid_size)
+    
+    def get_player_grid_pixels(self, x, y):
+        return (50 + x * self.grid_size, 50 + y * self.grid_size)
 
-    def set_player_ships(self):
+    def set_ships(self, board, is_ai: bool):
+        placements = []
 
-        def get_pixels(x, y):
-            return (50 + x * self.grid_size, 50 + y * self.grid_size)
+        for ship in board.ships:
+            if is_ai:
+                x, y = self.get_ai_grid_pixels(ship.x, ship.y)
+            else:
+                x, y = self.get_player_grid_pixels(ship.x, ship.y)
 
-        for ship in self.player_board.ships:
-            x, y = get_pixels(ship.x, ship.y)
             length = ship.length
             rotation = ship.rotation
 
             if rotation == "H":
-                ship = Ship(x, y, length, 1, 50)
+                ship_sprite = Ship(x, y, length, 1, 50)
             else:
-                ship = Ship(x, y, 1, length, 50)
+                ship_sprite = Ship(x, y, 1, length, 50)
 
-            self.placed_ships.append(ship)
+            if is_ai:
+                ship_sprite.visible = False
+
+            placements.append(ship_sprite)
+
+        return placements
+    
+    def start_ai_logic(self, board, difficulty):
+        if difficulty == "easy":
+            return Easy(board)
+        if difficulty == "medium":
+            return Medium(board)
