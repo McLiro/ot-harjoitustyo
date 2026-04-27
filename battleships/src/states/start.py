@@ -1,9 +1,8 @@
 import pygame
 from sprites.ui import Grid, Ship, Image, Label, Button
-from logic.board_logic import BoardLogic
-from logic.ship_logic import ShipLogic
+from logic import BoardLogic, ShipLogic
 from .base import State
-from .game import Game
+from .difficulty import Difficulty
 
 
 class Start(State):
@@ -67,7 +66,7 @@ class Start(State):
 
                 if self.start_button.rect.collidepoint(event.pos):
                     if len(self.placed_ships) >= 5:
-                        self.next_state = Game(self.game, self.board)
+                        self.next_state = Difficulty(self.game, self.board)
                         self.done = True
 
                 if self.selected is not None:

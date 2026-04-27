@@ -16,6 +16,7 @@ Sovellus mahdollistaa laivanupotus pelin pelaamisen tietokonetta vastaan.
   - Omat näkymät pelin eri vaiheille:
     - Aloitus (valmis)
     - Laivojen asettelu (valmis)
+    - Vaikeuden valinta (valmis)
     - Pelinäkymä
 
 ## Jatkokehitysideoita

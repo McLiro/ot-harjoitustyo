@@ -4,9 +4,10 @@ from logic.board_logic import BoardLogic
 from .base import State
 
 class Game(State):
-    def __init__(self, game, board: BoardLogic):
+    def __init__(self, game, board: BoardLogic, difficulty: str):
         super().__init__(game)
 
+        self.difficulty = difficulty
         self.player_board = board
         self.ai_board = BoardLogic(10)
         self.ai_board.generate_board([5, 4, 3, 3, 2])
