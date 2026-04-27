@@ -10,4 +10,5 @@
 | 13.4. | 3,5  | Laivojen asettamisen graafinen näkymä. |
 | 17.4. | 2,5  | Laivojen asetusnäkymä valmis. |
 | 20.4. | 3,0  | Pelinäkymän aloitus ja tietokone generoi oman lautansa. |
+| 27.4. | 0,5  | Docstringit tehty logiikkaa hoitaville luokille. |
 | yht.  | 15,5 |
