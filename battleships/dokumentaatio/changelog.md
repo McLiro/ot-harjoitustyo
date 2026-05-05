@@ -19,3 +19,7 @@
 - Käyttäjä voi resetoida laivojen asettelun.
 - Käyttäjä voi siirtyä peli näkymään.
 - Tietokone generoi itselleen laivojen asetelman.
+
+## Viikko 6
+
+- Käyttäjä voi valita pelin vaikeustason.
