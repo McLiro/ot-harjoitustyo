@@ -12,14 +12,16 @@ class Ship:
         self.cell_size = cell_size
         self.rect = pygame.Rect(x, y, width * cell_size, height * cell_size)
 
-        self.color = pygame.color.Color('steelblue2')
-        self.hover_color = pygame.color.Color('steelblue3')
-        self.selected_color = pygame.color.Color('limegreen')
-        self.placed_color = pygame.color.Color('gray40')
-        self.current_color = pygame.color.Color('steelblue2')
+        self.color = pygame.Color('steelblue2')
+        self.hover_color = pygame.Color('steelblue3')
+        self.selected_color = pygame.Color('limegreen')
+        self.placed_color = pygame.Color('gray40')
+        self.current_color = pygame.Color('steelblue2')
+        self.sunk_color = pygame.Color('red')
 
         self.placed = False
         self.selected = False
+        self.sunk = False
 
     
     def border_color(self, color):
@@ -27,7 +29,9 @@ class Ship:
 
 
     def update(self, mouse_pos):
-        if self.placed:
+        if self.sunk:
+            self.current_color = self.sunk_color
+        elif self.placed:
             self.current_color = self.placed_color
         elif self.selected:
             self.current_color = self.selected_color

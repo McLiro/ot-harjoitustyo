@@ -103,16 +103,19 @@ class BoardLogic:
         rotation = random.choice(["H", "V"])
         return ShipLogic(x, y, length, rotation)
 
-    def shoot_at_target(self, coords):
+    def validate_shot(self, coords):
         x, y = coords
-        target = self.grid[x][y]
-
-        if target is None:
+        if not (0 <= x <= 9 and 0 <= y <= 9):
             return False
-        
+
+        target = self.grid[y][x]
+
         if coords in self.shots:
             return False
         
-        target.hp -= 1
         self.shots.append(coords)
-        return True
+        
+        if target is not None:
+            return target.hit(coords)
+        
+        return ("MISS", coords)

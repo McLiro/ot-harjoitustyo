@@ -1,3 +1,5 @@
+from sprites.ui import Ship
+
 class ShipLogic:
     """Handles the logical attributes of a ship.
 
@@ -16,3 +18,20 @@ class ShipLogic:
         self.rotation = rotation
         self.hp = length
         self.is_sunk = False
+
+    def hit(self, coords):
+        self.hp -= 1
+
+        if self.hp == 0:
+            self.is_sunk = True
+            return ("SUNK", self)
+        
+        return ("HIT", coords)
+    
+    def create_sprite(self, x, y):
+        if self.rotation == "H":
+            sprite = Ship(x, y, self.length, 1, 50)
+        else:
+            sprite = Ship(x, y, 1, self.length, 50)
+
+        return sprite

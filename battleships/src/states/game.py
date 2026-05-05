@@ -1,6 +1,6 @@
 import pygame
 from sprites.ui import Grid, Ship, HitMarker
-from logic import BoardLogic, Easy, Medium
+from logic import BoardLogic, ShipLogic, Easy, Medium
 from .base import State
 
 class Game(State):
@@ -32,9 +32,32 @@ class Game(State):
         for event in events:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 coords = self.get_coords(event.pos)
-                
+                pixels = self.get_ai_grid_pixels(coords[0], coords[1])
+                self.handle_shooting(coords, pixels)
 
-    def update_board(self, board: BoardLogic):
+    def handle_shooting(self, coords, pixels):
+        impact = self.ai_board.validate_shot(coords)
+
+        if impact is False:
+            return
+
+        result = impact[0]
+        print(result, flush=True)
+
+        if result == "MISS":
+            self.hitmarkers.append(HitMarker(pixels[0], pixels[1], False))
+        elif result == "HIT":
+            self.hitmarkers.append(HitMarker(pixels[0], pixels[1], True))
+        elif result == "SUNK":
+            ship = impact[1]
+            x, y = self.get_ai_grid_pixels(ship.x, ship.y)
+            ship_sprite = ship.create_sprite(x, y)
+            ship_sprite.current_color = pygame.Color('red')
+            self.sunk_ships.append(ship_sprite)
+
+        self.ai_move()
+
+    def ai_move(self):
         pass
 
     def get_coords(self, mouse_pos):
@@ -59,13 +82,7 @@ class Game(State):
             else:
                 x, y = self.get_player_grid_pixels(ship.x, ship.y)
 
-            length = ship.length
-            rotation = ship.rotation
-
-            if rotation == "H":
-                ship_sprite = Ship(x, y, length, 1, 50)
-            else:
-                ship_sprite = Ship(x, y, 1, length, 50)
+            ship_sprite = ship.create_sprite(x, y)
 
             if is_ai:
                 ship_sprite.visible = False
@@ -73,7 +90,7 @@ class Game(State):
             placements.append(ship_sprite)
 
         return placements
-    
+
     def start_ai_logic(self, board, difficulty):
         if difficulty == "easy":
             return Easy(board)
