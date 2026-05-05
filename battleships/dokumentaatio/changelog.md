@@ -23,3 +23,7 @@
 ## Viikko 6
 
 - Käyttäjä voi valita pelin vaikeustason.
+
+## Viikko 7
+
+- Käyttäjä voi ampua tekoälyn ruudukkoa ja näkee visuaalisen palautteen tuliko osuma/upposiko laiva.

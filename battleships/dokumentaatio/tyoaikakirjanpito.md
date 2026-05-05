@@ -12,4 +12,5 @@
 | 20.4. | 3,0  | Pelinäkymän aloitus ja tietokone generoi oman lautansa. |
 | 27.4. | 0,5  | Docstringit tehty logiikkaa hoitaville luokille. |
 | 27.4. | 2,5  | Ampumislogiikan ja käyttöliittymän aloitus. |
-| yht.  | 18,5 |
+|  5.5. | 3,0  | Ampumislogiikka valmis pelaajan osalta. |
+| yht.  | 24,5 |
