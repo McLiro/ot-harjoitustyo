@@ -119,3 +119,10 @@ class BoardLogic:
             return target.hit(coords)
         
         return ("MISS", coords)
+    
+    def has_lost(self):
+        for ship in self.ships:
+            if ship.is_sunk == False:
+                return False
+        
+        return True

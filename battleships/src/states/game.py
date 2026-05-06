@@ -2,16 +2,18 @@ import pygame
 from sprites.ui import Grid, Ship, HitMarker
 from logic import BoardLogic, ShipLogic, Easy, Medium
 from .base import State
+from .game_over import GameOver
 
 class Game(State):
     def __init__(self, game, board: BoardLogic, difficulty: str):
         super().__init__(game)
 
+        self.game = game
         self.difficulty = difficulty
         self.player_board = board
         self.ai_board = BoardLogic(10)
         self.ai_board.generate_board([5, 4, 3, 3, 2])
-        self.ai_logic = self.start_ai_logic(self.player_board, self.difficulty)
+        self.ai_logic = self.start_ai_logic(self.difficulty)
 
         white = pygame.Color('white')
         self.grid_size = 50
@@ -35,6 +37,14 @@ class Game(State):
                 pixels = self.get_ai_grid_pixels(coords[0], coords[1])
                 self.handle_shooting(coords, pixels)
 
+    def game_over(self, is_ai: bool):
+        if is_ai:
+            self.next_state = GameOver(self.game, "AI")
+        else:
+            self.next_state = GameOver(self.game, "PLAYER")
+
+        self.done = True
+
     def handle_shooting(self, coords, pixels):
         impact = self.ai_board.validate_shot(coords)
 
@@ -42,23 +52,47 @@ class Game(State):
             return
 
         result = impact[0]
-        print(result, flush=True)
 
-        if result == "MISS":
-            self.hitmarkers.append(HitMarker(pixels[0], pixels[1], False))
-        elif result == "HIT":
-            self.hitmarkers.append(HitMarker(pixels[0], pixels[1], True))
-        elif result == "SUNK":
+        self.draw_hitmarker(pixels, result)
+
+        if result == "SUNK":
             ship = impact[1]
             x, y = self.get_ai_grid_pixels(ship.x, ship.y)
             ship_sprite = ship.create_sprite(x, y)
             ship_sprite.current_color = pygame.Color('red')
             self.sunk_ships.append(ship_sprite)
 
+        if self.ai_board.has_lost():
+            self.game_over(is_ai=False)
+
         self.ai_move()
 
+        if self.player_board.has_lost():
+            self.game_over(is_ai=True)
+
     def ai_move(self):
-        pass
+        target = self.ai_logic.make_move()
+        pixels = self.get_player_grid_pixels(target[0], target[1])
+
+        impact = self.player_board.validate_shot(target)
+        result = impact[0]
+
+        self.draw_hitmarker(pixels, result)
+
+        if result == "SUNK":
+            ship = impact[1]
+            x, y = self.get_player_grid_pixels(ship.x, ship.y)
+            ship_sprite = ship.create_sprite(x, y)
+            ship_sprite.current_color = pygame.Color('red')
+            self.sunk_ships.append(ship_sprite)
+
+        self.ai_logic.process_result(target, result)
+
+    def draw_hitmarker(self, pixels, result):
+        if result == "HIT":
+            self.hitmarkers.append(HitMarker(pixels[0], pixels[1], True))
+        elif result == "MISS":
+            self.hitmarkers.append(HitMarker(pixels[0], pixels[1], False))
 
     def get_coords(self, mouse_pos):
         mouse_x = mouse_pos[0] - 750
@@ -91,8 +125,8 @@ class Game(State):
 
         return placements
 
-    def start_ai_logic(self, board, difficulty):
+    def start_ai_logic(self, difficulty):
         if difficulty == "easy":
-            return Easy(board)
+            return Easy()
         if difficulty == "medium":
-            return Medium(board)
+            return Medium()

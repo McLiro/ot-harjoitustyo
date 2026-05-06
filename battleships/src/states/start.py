@@ -18,7 +18,7 @@ class Start(State):
         self.grid = Grid(50, 50, self.grid_size, self.white)
 
         font = pygame.font.Font(None, 30)
-        self.rotation_text = Label(700, 50, "Press R rotate!", font, self.white)
+        self.rotation_text = Label(700, 50, "Press R to rotate!", font, self.white)
         self.rotation_image = Image(700, 100, 270, "arrow.png")
 
         self.reset_button = Button(700, 200, 200, 100, "RESET", pygame.Color('white'),
