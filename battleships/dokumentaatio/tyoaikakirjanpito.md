@@ -13,4 +13,6 @@
 | 27.4. | 0,5  | Docstringit tehty logiikkaa hoitaville luokille. |
 | 27.4. | 2,5  | Ampumislogiikan ja käyttöliittymän aloitus. |
 |  5.5. | 3,0  | Ampumislogiikka valmis pelaajan osalta. |
-| yht.  | 24,5 |
+|  6.5. | 1,0  | Helppo tekoäly valmis. |
+|  6.5. | 0,5  | Pelin loppumisen tunnistus. |
+| yht.  | 26,0 |

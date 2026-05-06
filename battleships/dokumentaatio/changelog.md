@@ -27,3 +27,6 @@
 ## Viikko 7
 
 - Käyttäjä voi ampua tekoälyn ruudukkoa ja näkee visuaalisen palautteen tuliko osuma/upposiko laiva.
+- Käyttäjä voi pelata helppoa tekoälyä vastaan.
+  - Helppo tekoäly ampuu satunnaisesti vapaita ruutuja.
+- Peli loppuu kun joko tietokone tai pelaaja loppuu.
