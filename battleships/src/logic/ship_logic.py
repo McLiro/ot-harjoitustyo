@@ -35,3 +35,25 @@ class ShipLogic:
             sprite = Ship(x, y, 1, self.length, 50)
 
         return sprite
+    
+    def to_dict(self):
+        """Returns a dict of the ship for JSON"""
+        return {
+            "x": self.x,
+            "y": self.y,
+            "length": self.length,
+            "rotation": self.rotation,
+            "hp": self.hp,
+            "is_sunk": self.is_sunk
+        }
+    
+    @classmethod
+    def from_dict(cls, data: dict):
+        return cls(
+            x = data["x"],
+            y = data["y"],
+            length = data["length"],
+            rotation = data["rotation"],
+            hp = data["hp"],
+            is_sunk = data["is_sunk"]
+        )

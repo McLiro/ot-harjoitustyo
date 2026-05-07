@@ -126,3 +126,37 @@ class BoardLogic:
                 return False
         
         return True
+    
+    def to_dict(self):
+        """Returns a dict of the board for JSON serialization."""
+        ship_json = []
+        for ship in self.ships:
+            ship_json.append(ship.to_dict())
+
+        return {
+            "ships": ship_json,
+            "shots": self.shots,
+            "board_size": self.board_size
+        }
+    
+    @classmethod
+    def from_dict(cls, data: dict):
+        """Creates a BoardLogic from JSON."""
+        ships = [ShipLogic.from_dict(ship_data) for ship_data in data["ships"]]
+        shots = data["shots"]
+        board_size = data["board_size"]
+        grid = [[None for _ in range(board_size)] for _ in range(board_size)]
+
+        for ship in ships:
+            for i in range(ship.length):
+                if ship.rotation == "H":
+                    grid[ship.y][ship.x + i] = ship
+                else:
+                    grid[ship.y + i][ship.x] = ship
+
+        return cls(
+            ships = ships,
+            shots = shots,
+            board_size = board_size,
+            grid = grid
+        )
