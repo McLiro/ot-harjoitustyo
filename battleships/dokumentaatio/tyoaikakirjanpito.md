@@ -15,4 +15,7 @@
 |  5.5. | 3,0  | Ampumislogiikka valmis pelaajan osalta. |
 |  6.5. | 1,0  | Helppo tekoäly valmis. |
 |  6.5. | 0,5  | Pelin loppumisen tunnistus. |
-| yht.  | 26,0 |
+|  7.5. | 2,5  | Tietokannan suunnittelu ja toteutuksen aloitus. |
+|  8.5. | 2,5  | Tietokanta valmis. |
+|  8.5. | 1,0  | Latausnäkymän aloitus. |
+| yht.  | 32,0 |
