@@ -2,6 +2,7 @@ import pygame
 from sprites.ui import Button, Label
 from .base import State
 from .start import Start
+from .load import Load
 
 
 class Menu(State):
@@ -17,10 +18,14 @@ class Menu(State):
         self.start_button = Button(640, 300, 200, 100, "START", pygame.Color('white'),
                    pygame.Color('whitesmoke'), pygame.Color('black'),
                    self.button_font, True)
+        self.load_button = Button(640, 425, 200, 100, "LOAD SAVE", pygame.Color('white'),
+                   pygame.Color('whitesmoke'), pygame.Color('black'),
+                   self.button_font, True)
 
         self.ui_elements = [
             self.title,
-            self.start_button
+            self.start_button,
+            self.load_button
         ]
 
 
@@ -29,6 +34,9 @@ class Menu(State):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if self.start_button.rect.collidepoint(event.pos):
                     self.next_state = Start(self.game)
+                    self.done = True
+                if self.load_button.rect.collidepoint(event.pos):
+                    self.next_state = Load(self.game)
                     self.done = True
 
 

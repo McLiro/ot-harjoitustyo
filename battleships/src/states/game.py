@@ -3,6 +3,7 @@ from sprites.ui import Grid, Ship, HitMarker
 from logic import BoardLogic, ShipLogic, Easy, Medium
 from .base import State
 from .game_over import GameOver
+from db.db import GameDatabase
 
 class Game(State):
     def __init__(self, game, board: BoardLogic, difficulty: str):
@@ -29,6 +30,10 @@ class Game(State):
 
         self.ships = self.set_ships(self.ai_board, True) # AI SHIPS
         self.placed_ships = self.set_ships(self.player_board, False) # PLAYER SHIPS
+
+        self.database = GameDatabase()
+        self.player_board.save_id = self.ai_board.save_id = self.database.save_new(10, self.player_board, self.ai_board)
+        print(self.database.load(self.player_board.save_id), flush=True)
 
     def handle_events(self, events):
         for event in events:

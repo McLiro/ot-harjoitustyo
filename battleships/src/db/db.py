@@ -1,6 +1,7 @@
-import sqlite3
+import sqlite3, json
 from pathlib import Path
 from datetime import datetime
+from dataclasses import fields
 from logic.board_logic import BoardLogic
 
 DB_PATH = Path(__file__).parent.parent / "data" / "saves.db"
@@ -8,12 +9,17 @@ DB_PATH = Path(__file__).parent.parent / "data" / "saves.db"
 class GameDatabase:
     def __init__(self, db_path=DB_PATH):
         self.db_path = db_path
+        self._init_db()
 
     def _get_conn(self):
-        return sqlite3.connect(self.db_path)
+        conn = sqlite3.connect(self.db_path)
+        conn.execute("PRAGMA journal_mode=WAL;")
+        conn.execute("PRAGMA foreign_keys=ON;")
+        conn.row_factory = sqlite3.Row
+        return conn
     
     def _init_db(self):
-        with self._get_conn as conn:
+        with self._get_conn() as conn:
             conn.execute("""
                 CREATE TABLE IF NOT EXISTS saved_games (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -25,11 +31,11 @@ class GameDatabase:
             """)
 
     def save_new(self, board_size: int, player_board: BoardLogic, ai_board: BoardLogic):
-        player_board_json = player_board.to_dict()
-        ai_board_json = ai_board.to_dict()
+        player_board_json = json.dumps(player_board.to_dict())
+        ai_board_json = json.dumps(ai_board.to_dict())
         time_now = datetime.now().isoformat()
 
-        with self._get_conn as conn:
+        with self._get_conn() as conn:
             cur = conn.execute(
                 """INSERT INTO saved_games
                 (board_size, player_board, ai_board, last_played_at)
@@ -37,3 +43,49 @@ class GameDatabase:
                 (board_size, player_board_json, ai_board_json, time_now)
             )
             return cur.lastrowid
+
+    def update(self, player_board: BoardLogic, ai_board: BoardLogic):
+        player_board_json = json.dumps(player_board.to_dict())
+        ai_board_json = json.dumps(ai_board.to_dict())
+        time_now = datetime.now().isoformat()
+
+        with self._get_conn() as conn:
+            conn.execute(
+                "UPDATE saved_games SET player_board=?, ai_board=?, last_played_at=? WHERE id=?",
+                (player_board_json, ai_board_json, time_now)
+            )
+
+    def load(self, save_id: int):
+        with self._get_conn() as conn:
+            row = conn.execute("SELECT * FROM saved_games WHERE id=?", (save_id,)).fetchone()
+            if not row:
+                return None
+            
+            player_data = json.loads(row["player_board"])
+            ai_data = json.loads(row["ai_board"])
+            board_size = row["board_size"]
+
+            player_board = BoardLogic(board_size)
+            ai_board = BoardLogic(board_size)
+
+            for field in fields(player_board):
+                field_name = field.name
+                setattr(player_board, field_name, player_data.get(field_name, getattr(player_board, field_name)))
+
+            for field in fields(ai_board):
+                field_name = field.name
+                setattr(ai_board, field_name, ai_data.get(field_name, getattr(ai_board, field_name)))
+
+            player_board.save_id = ai_board.save_id = row["id"]
+
+            return player_board, ai_board
+        
+    def list_saves(self):
+        with self._get_conn() as conn:
+            return [dict(r) for r in conn.execute(
+                "SELECT id, last_played_at FROM saved_games ORDER BY last_played_at DESC"
+            ).fetchall()]
+        
+    def delete(self, save_id: int):
+        with self._get_conn() as conn:
+            conn.execute("DELETE FROM saved_games WHERE id=?", (save_id,))

@@ -1,6 +1,8 @@
 import random
+from dataclasses import dataclass
 from .ship_logic import ShipLogic
 
+@dataclass
 class BoardLogic:
     """Class for handling the game logic for placing down ships and keeping track of the state of the board.
 
@@ -21,6 +23,8 @@ class BoardLogic:
         self.shots = []
         self.board_size = board_size
         self.grid = [[None for _ in range(self.board_size)] for _ in range(self.board_size)]
+
+        self.save_id = None
 
     def place_ship(self, ship):
         """Places down a ShipLogic class on the current board if possible.
