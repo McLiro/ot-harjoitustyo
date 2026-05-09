@@ -3,6 +3,7 @@ from sprites.ui import Button, Label
 from .base import State
 from .start import Start
 from .load import Load
+from db.db import GameDatabase
 
 
 class Menu(State):
@@ -10,6 +11,7 @@ class Menu(State):
         super().__init__(game)
 
         self.game = game
+        self.database = GameDatabase()
 
         self.title_font = pygame.font.Font(None, 50)
         self.button_font = pygame.font.Font(None, 30)
@@ -18,9 +20,17 @@ class Menu(State):
         self.start_button = Button(640, 300, 200, 100, "START", pygame.Color('white'),
                    pygame.Color('whitesmoke'), pygame.Color('black'),
                    self.button_font, True)
-        self.load_button = Button(640, 425, 200, 100, "LOAD SAVE", pygame.Color('white'),
-                   pygame.Color('whitesmoke'), pygame.Color('black'),
-                   self.button_font, True)
+        
+        if len(self.database.list_saves()) == 0:
+            self.has_save_files = False
+            self.load_button = Button(640, 425, 200, 100, "LOAD SAVE", pygame.Color('gray25'),
+                    pygame.Color('gray25'), pygame.Color('black'),
+                    self.button_font, True)
+        else:
+            self.has_save_files = True
+            self.load_button = Button(640, 425, 200, 100, "LOAD SAVE", pygame.Color('white'),
+                    pygame.Color('whitesmoke'), pygame.Color('black'),
+                    self.button_font, True)
 
         self.ui_elements = [
             self.title,
@@ -35,7 +45,7 @@ class Menu(State):
                 if self.start_button.rect.collidepoint(event.pos):
                     self.next_state = Start(self.game)
                     self.done = True
-                if self.load_button.rect.collidepoint(event.pos):
+                if self.load_button.rect.collidepoint(event.pos) and self.has_save_files:
                     self.next_state = Load(self.game)
                     self.done = True
 

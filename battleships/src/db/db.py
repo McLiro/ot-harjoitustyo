@@ -26,11 +26,12 @@ class GameDatabase:
                     board_size INTEGER NOT NULL,
                     player_board TEXT NOT NULL,
                     ai_board TEXT NOT NULL,
+                    difficulty TEXT NOT NULL,
                     last_played_at TEXT NOT NULL
                 )
             """)
 
-    def save_new(self, board_size: int, player_board: BoardLogic, ai_board: BoardLogic):
+    def save_new(self, board_size: int, player_board: BoardLogic, ai_board: BoardLogic, difficulty: str):
         player_board_json = json.dumps(player_board.to_dict())
         ai_board_json = json.dumps(ai_board.to_dict())
         time_now = datetime.now().isoformat()
@@ -38,13 +39,13 @@ class GameDatabase:
         with self._get_conn() as conn:
             cur = conn.execute(
                 """INSERT INTO saved_games
-                (board_size, player_board, ai_board, last_played_at)
-                VALUES (?, ?, ?, ?)""",
-                (board_size, player_board_json, ai_board_json, time_now)
+                (board_size, player_board, ai_board, difficulty, last_played_at)
+                VALUES (?, ?, ?, ?, ?)""",
+                (board_size, player_board_json, ai_board_json, difficulty, time_now)
             )
             return cur.lastrowid
 
-    def update(self, player_board: BoardLogic, ai_board: BoardLogic):
+    def update(self, player_board: BoardLogic, ai_board: BoardLogic, save_id: int):
         player_board_json = json.dumps(player_board.to_dict())
         ai_board_json = json.dumps(ai_board.to_dict())
         time_now = datetime.now().isoformat()
@@ -52,7 +53,7 @@ class GameDatabase:
         with self._get_conn() as conn:
             conn.execute(
                 "UPDATE saved_games SET player_board=?, ai_board=?, last_played_at=? WHERE id=?",
-                (player_board_json, ai_board_json, time_now)
+                (player_board_json, ai_board_json, time_now, save_id)
             )
 
     def load(self, save_id: int):
@@ -60,25 +61,17 @@ class GameDatabase:
             row = conn.execute("SELECT * FROM saved_games WHERE id=?", (save_id,)).fetchone()
             if not row:
                 return None
-            
+
             player_data = json.loads(row["player_board"])
             ai_data = json.loads(row["ai_board"])
-            board_size = row["board_size"]
+            difficulty = row["difficulty"]
 
-            player_board = BoardLogic(board_size)
-            ai_board = BoardLogic(board_size)
-
-            for field in fields(player_board):
-                field_name = field.name
-                setattr(player_board, field_name, player_data.get(field_name, getattr(player_board, field_name)))
-
-            for field in fields(ai_board):
-                field_name = field.name
-                setattr(ai_board, field_name, ai_data.get(field_name, getattr(ai_board, field_name)))
+            player_board = BoardLogic.from_dict(player_data)
+            ai_board = BoardLogic.from_dict(ai_data)
 
             player_board.save_id = ai_board.save_id = row["id"]
 
-            return player_board, ai_board
+            return player_board, ai_board, difficulty
         
     def list_saves(self):
         with self._get_conn() as conn:

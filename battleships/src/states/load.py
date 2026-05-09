@@ -1,6 +1,7 @@
 import pygame
 from datetime import datetime
 from .base import State
+from .game import Game
 from db.db import GameDatabase
 from sprites.ui import Label, Button
 
@@ -31,11 +32,15 @@ class Load(State):
     def handle_events(self, events):
         for event in events:
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if self.previous_button.rect.collidepoint(event.pos):
+                if self.load_button.rect.collidepoint(event.pos):
+                    file = self.save_file_list[self.file_number]
+                    file_id = file['id']
+                    self.next_state = Game(self.game, save_file_id=file_id)
+                    self.done = True
+                elif self.previous_button.rect.collidepoint(event.pos):
                     self.previous()
                 elif self.next_button.rect.collidepoint(event.pos):
                     self.next()
-                print(self.selected_file, flush=True)
 
     def create_labels(self):
         labels = []

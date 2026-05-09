@@ -6,15 +6,11 @@ from .game_over import GameOver
 from db.db import GameDatabase
 
 class Game(State):
-    def __init__(self, game, board: BoardLogic, difficulty: str):
+    def __init__(self, game, player_board: BoardLogic=None, difficulty: str=None, save_file_id: int=None):
         super().__init__(game)
 
         self.game = game
-        self.difficulty = difficulty
-        self.player_board = board
-        self.ai_board = BoardLogic(10)
-        self.ai_board.generate_board([5, 4, 3, 3, 2])
-        self.ai_logic = self.start_ai_logic(self.difficulty)
+        self.database = GameDatabase()
 
         white = pygame.Color('white')
         self.grid_size = 50
@@ -23,17 +19,37 @@ class Game(State):
 
         self.ui_elements = [self.player_grid,
                             self.ai_grid]
-        
+
         self.hitmarkers = []
 
         self.sunk_ships = []
 
+        if save_file_id is None:
+            self.new_game(player_board, difficulty)
+        else:
+            self.load_game(save_file_id)
+
+        self.set_hitmarkers()
         self.ships = self.set_ships(self.ai_board, True) # AI SHIPS
         self.placed_ships = self.set_ships(self.player_board, False) # PLAYER SHIPS
 
-        self.database = GameDatabase()
-        self.player_board.save_id = self.ai_board.save_id = self.database.save_new(10, self.player_board, self.ai_board)
-        print(self.database.load(self.player_board.save_id), flush=True)
+    def load_game(self, save_file_id):
+        self.player_board, self.ai_board, self.difficulty = self.database.load(save_file_id)
+
+        self.ai_logic = self.start_ai_logic(self.difficulty)
+
+        for shot in self.player_board.shots:
+            self.ai_logic.unshot_coords.remove(shot)
+
+    def new_game(self, player_board, difficulty):
+        self.player_board = player_board
+        self.difficulty = difficulty
+
+        self.ai_board = BoardLogic(10)
+        self.ai_board.generate_board([5, 4, 3, 3, 2])
+        self.ai_logic = self.start_ai_logic(self.difficulty)
+
+        self.player_board.save_id = self.ai_board.save_id = self.database.save_new(10, self.player_board, self.ai_board, difficulty)
 
     def handle_events(self, events):
         for event in events:
@@ -93,6 +109,23 @@ class Game(State):
 
         self.ai_logic.process_result(target, result)
 
+        self.database.update(self.player_board, self.ai_board, self.player_board.save_id)
+
+    def set_hitmarkers(self):
+        # Player's shots → drawn on the AI grid (right side)
+        for shot in self.ai_board.shots:
+            pixels = self.get_ai_grid_pixels(shot[0], shot[1])
+            target = self.ai_board.grid[shot[1]][shot[0]]
+            result = "HIT" if target is not None else "MISS"
+            self.draw_hitmarker(pixels, result)
+
+        # AI's shots → drawn on the player grid (left side)
+        for shot in self.player_board.shots:
+            pixels = self.get_player_grid_pixels(shot[0], shot[1])
+            target = self.player_board.grid[shot[1]][shot[0]]
+            result = "HIT" if target is not None else "MISS"
+            self.draw_hitmarker(pixels, result)
+
     def draw_hitmarker(self, pixels, result):
         if result == "HIT":
             self.hitmarkers.append(HitMarker(pixels[0], pixels[1], True))
@@ -123,10 +156,14 @@ class Game(State):
 
             ship_sprite = ship.create_sprite(x, y)
 
-            if is_ai:
+            if is_ai and ship.is_sunk == False:
                 ship_sprite.visible = False
 
-            placements.append(ship_sprite)
+            if ship.is_sunk:
+                ship_sprite.current_color = pygame.Color('red')
+                self.sunk_ships.append(ship_sprite)
+            else:
+                placements.append(ship_sprite)
 
         return placements
 
