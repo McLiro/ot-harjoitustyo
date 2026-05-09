@@ -30,3 +30,4 @@
 - Käyttäjä voi pelata helppoa tekoälyä vastaan.
   - Helppo tekoäly ampuu satunnaisesti vapaita ruutuja.
 - Peli loppuu kun joko tietokone tai pelaaja loppuu.
+- Vanhan keskeneräisen pelin pelaamista voi jatkaa latamaalla pelin tilan tietokannasta.

@@ -18,4 +18,5 @@
 |  7.5. | 2,5  | Tietokannan suunnittelu ja toteutuksen aloitus. |
 |  8.5. | 2,5  | Tietokanta valmis. |
 |  8.5. | 1,0  | Latausnäkymän aloitus. |
-| yht.  | 32,0 |
+|  9.5. | 3,0  | Tallennustiedoston lataus tietokannasta. |
+| yht.  | 35,0 |
