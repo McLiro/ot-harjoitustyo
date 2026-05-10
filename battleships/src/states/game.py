@@ -108,16 +108,25 @@ class Game(State):
 
         self.draw_hitmarker(pixels, result)
 
+        self.ai_logic.process_result(target, result)
+
         if result == "SUNK":
             ship = impact[1]
             x, y = self.get_player_grid_pixels(ship.x, ship.y)
             ship_sprite = ship.create_sprite(x, y)
             ship_sprite.current_color = pygame.Color('red')
             self.sunk_ships.append(ship_sprite)
+            coords = []
+            if ship.rotation == "H":
+                for i in range(ship.length):
+                    coords.append((ship.x + i, ship.y))
+            else:
+                for i in range(ship.length):
+                    coords.append((ship.x, ship.y + i))
 
-        self.ai_logic.process_result(target, result)
+            self.ai_logic.process_sinking(coords)
 
-        self.database.update(self.player_board, self.ai_board, self.player_board.save_id)
+        self.database.update(self.player_board, self.ai_board, self.player_board.save_id)   
 
     def set_hitmarkers(self):
         # Player's shots → drawn on the AI grid (right side)
