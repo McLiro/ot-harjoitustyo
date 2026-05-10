@@ -29,5 +29,7 @@
 - Käyttäjä voi ampua tekoälyn ruudukkoa ja näkee visuaalisen palautteen tuliko osuma/upposiko laiva.
 - Käyttäjä voi pelata helppoa tekoälyä vastaan.
   - Helppo tekoäly ampuu satunnaisesti vapaita ruutuja.
+- Käyttäjä voi pelata keskitasoista tekoälyä vastaan.
+  - Tekoäly ampuu osumien viereisiin ruutuihin.
 - Peli loppuu kun joko tietokone tai pelaaja loppuu.
 - Vanhan keskeneräisen pelin pelaamista voi jatkaa latamaalla pelin tilan tietokannasta.

@@ -19,4 +19,6 @@
 |  8.5. | 2,5  | Tietokanta valmis. |
 |  8.5. | 1,0  | Latausnäkymän aloitus. |
 |  9.5. | 3,0  | Tallennustiedoston lataus tietokannasta. |
-| yht.  | 35,0 |
+| 10.5. | 1,0  | Vanhat loppuun pelatut tallenustiedostot poistuvat. |
+| 10.5. | 3,0  | Keskitasoinen tekoäly valmis. |
+| yht.  | 39,0 |
