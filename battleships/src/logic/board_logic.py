@@ -4,7 +4,8 @@ from .ship_logic import ShipLogic
 
 @dataclass
 class BoardLogic:
-    """Class for handling the game logic for placing down ships and keeping track of the state of the board.
+    """Class for handling the game logic for placing down ships
+    and keeping track of the state of the board.
 
     Attributes:
         ships: A list of ships on the game board.
@@ -116,21 +117,21 @@ class BoardLogic:
 
         if coords in self.shots:
             return False
-        
+
         self.shots.append(coords)
-        
+
         if target is not None:
             return target.hit(coords)
-        
+
         return ("MISS", coords)
-    
+
     def has_lost(self):
         for ship in self.ships:
-            if ship.is_sunk == False:
+            if ship.is_sunk is False:
                 return False
-        
+
         return True
-    
+
     def to_dict(self):
         """Returns a dict of the board for JSON serialization."""
         ship_json = []
@@ -142,7 +143,7 @@ class BoardLogic:
             "shots": self.shots,
             "board_size": self.board_size
         }
-    
+
     @classmethod
     def from_dict(cls, data: dict):
         board = cls(data["board_size"])

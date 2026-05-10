@@ -1,7 +1,7 @@
+import pygame
 from sprites.ui import Button, Label
 from .base import State
 from .game import Game
-import pygame
 
 class Difficulty(State):
     def __init__(self, game, board):

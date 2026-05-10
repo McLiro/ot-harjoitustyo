@@ -1,9 +1,9 @@
 import pygame
 from sprites.ui import Button, Label
+from db.db import GameDatabase
 from .base import State
 from .start import Start
 from .load import Load
-from db.db import GameDatabase
 
 
 class Menu(State):
@@ -20,7 +20,7 @@ class Menu(State):
         self.start_button = Button(640, 300, 200, 100, "START", pygame.Color('white'),
                    pygame.Color('whitesmoke'), pygame.Color('black'),
                    self.button_font, True)
-        
+
         if len(self.database.list_saves()) == 0:
             self.has_save_files = False
             self.load_button = Button(640, 425, 200, 100, "LOAD SAVE", pygame.Color('gray25'),

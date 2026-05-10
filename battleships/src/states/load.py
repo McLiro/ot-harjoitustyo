@@ -1,9 +1,9 @@
-import pygame
 from datetime import datetime
-from .base import State
-from .game import Game
+import pygame
 from db.db import GameDatabase
 from sprites.ui import Label, Button
+from .base import State
+from .game import Game
 
 class Load(State):
     def __init__(self, game):
@@ -16,11 +16,21 @@ class Load(State):
         self.labels = self.create_labels()
         self.selected_file = self.labels[self.file_number]
 
-        self.load_button = Button(640, 425, 200, 50, "LOAD", pygame.Color('white'), pygame.Color('whitesmoke'), pygame.Color('black'), pygame.font.Font(None, 30), True)
-        self.previous_button = Button(510, 425, 50, 50, "<", pygame.Color('white'), pygame.Color('whitesmoke'), pygame.Color('black'), pygame.font.Font(None, 30), True)
-        self.next_button = Button(770, 425, 50, 50, ">", pygame.Color('white'), pygame.Color('whitesmoke'), pygame.Color('black'), pygame.font.Font(None, 30), True)
+        self.load_button = Button(640, 425, 200, 50, "LOAD", pygame.Color('white'),
+                                    pygame.Color('whitesmoke'), pygame.Color('black'),
+                                    pygame.font.Font(None, 30), True)
 
-        self.delete_button = Button(640, 485, 100, 50, "DELETE", pygame.Color('red'), pygame.Color('red2'), pygame.Color('white'), pygame.font.Font(None, 30), True)
+        self.previous_button = Button(510, 425, 50, 50, "<", pygame.Color('white'),
+                                    pygame.Color('whitesmoke'), pygame.Color('black'),
+                                    pygame.font.Font(None, 30), True)
+
+        self.next_button = Button(770, 425, 50, 50, ">", pygame.Color('white'),
+                                    pygame.Color('whitesmoke'), pygame.Color('black'),
+                                    pygame.font.Font(None, 30), True)
+
+        self.delete_button = Button(640, 485, 100, 50, "DELETE", pygame.Color('red'),
+                                    pygame.Color('red2'), pygame.Color('white'),
+                                    pygame.font.Font(None, 30), True)
 
         self.ui_elements = [self.selected_file,
                             self.load_button,
@@ -49,11 +59,12 @@ class Load(State):
         for file in self.save_file_list:
             time = datetime.fromisoformat(file['last_played_at'])
             time_str = time.strftime('%B %d, %Y at %I:%M %p')
-            label = Label(640, 350, f"ID: {str(file['id'])}, Last played at: {time_str}", pygame.font.Font(None, 30), pygame.Color('white'))
+            label = Label(640, 350, f"ID: {str(file['id'])}, Last played at: {time_str}",
+                            pygame.font.Font(None, 30), pygame.Color('white'))
             labels.append(label)
 
         return labels
-    
+
     def previous(self):
         self.file_number = (self.file_number + 1) % len(self.save_file_list)
 

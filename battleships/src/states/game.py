@@ -1,12 +1,13 @@
 import pygame
-from sprites.ui import Grid, Ship, HitMarker, Button
-from logic import BoardLogic, ShipLogic, Easy, Medium
+from sprites.ui import Grid, HitMarker, Button
+from logic import BoardLogic, Easy, Medium
+from db.db import GameDatabase
 from .base import State
 from .game_over import GameOver
-from db.db import GameDatabase
 
 class Game(State):
-    def __init__(self, game, player_board: BoardLogic=None, difficulty: str=None, save_file_id: int=None):
+    def __init__(self, game, player_board: BoardLogic=None,
+                difficulty: str=None, save_file_id: int=None):
         super().__init__(game)
 
         self.game = game
@@ -16,7 +17,9 @@ class Game(State):
         self.grid_size = 50
         self.player_grid = Grid(50, 50, self.grid_size, white)
         self.ai_grid = Grid(750, 50, self.grid_size, white)
-        self.main_menu_button = Button(650, 625, 200, 100, "MAIN MENU", white, pygame.Color('whitesmoke'), pygame.Color('black'), pygame.font.Font(None, 30), True)
+        self.main_menu_button = Button(650, 625, 200, 100, "MAIN MENU", white,
+                                       pygame.Color('whitesmoke'), pygame.Color('black'),
+                                       pygame.font.Font(None, 30), True)
 
         self.ui_elements = [self.player_grid,
                             self.ai_grid,
@@ -51,7 +54,8 @@ class Game(State):
         self.ai_board.generate_board([5, 4, 3, 3, 2])
         self.ai_logic = self.start_ai_logic(self.difficulty)
 
-        self.player_board.save_id = self.ai_board.save_id = self.database.save_new(10, self.player_board, self.ai_board, difficulty)
+        self.player_board.save_id = self.ai_board.save_id = self.database.save_new(
+        10, self.player_board, self.ai_board, difficulty)
 
     def handle_events(self, events):
         for event in events:
@@ -126,17 +130,17 @@ class Game(State):
 
             self.ai_logic.process_sinking(coords)
 
-        self.database.update(self.player_board, self.ai_board, self.player_board.save_id)   
+        self.database.update(self.player_board, self.ai_board, self.player_board.save_id)
 
     def set_hitmarkers(self):
-        # Player's shots → drawn on the AI grid (right side)
+        # Player's shots drawn on the AI grid (right side)
         for shot in self.ai_board.shots:
             pixels = self.get_ai_grid_pixels(shot[0], shot[1])
             target = self.ai_board.grid[shot[1]][shot[0]]
             result = "HIT" if target is not None else "MISS"
             self.draw_hitmarker(pixels, result)
 
-        # AI's shots → drawn on the player grid (left side)
+        # AI's shots drawn on the player grid (left side)
         for shot in self.player_board.shots:
             pixels = self.get_player_grid_pixels(shot[0], shot[1])
             target = self.player_board.grid[shot[1]][shot[0]]
@@ -155,10 +159,9 @@ class Game(State):
 
         return (mouse_x // self.grid_size, mouse_y // self.grid_size)
 
-
     def get_ai_grid_pixels(self, x, y):
         return (750 + x * self.grid_size, 50 + y * self.grid_size)
-    
+
     def get_player_grid_pixels(self, x, y):
         return (50 + x * self.grid_size, 50 + y * self.grid_size)
 
@@ -173,7 +176,7 @@ class Game(State):
 
             ship_sprite = ship.create_sprite(x, y)
 
-            if is_ai and ship.is_sunk == False:
+            if is_ai and ship.is_sunk is False:
                 ship_sprite.visible = False
 
             if ship.is_sunk:

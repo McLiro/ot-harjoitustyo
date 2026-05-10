@@ -1,7 +1,7 @@
-import sqlite3, json
+import sqlite3
+import json
 from pathlib import Path
 from datetime import datetime
-from dataclasses import fields
 from logic.board_logic import BoardLogic
 
 DB_PATH = Path(__file__).parent.parent / "data" / "saves.db"
@@ -17,7 +17,7 @@ class GameDatabase:
         conn.execute("PRAGMA foreign_keys=ON;")
         conn.row_factory = sqlite3.Row
         return conn
-    
+
     def _init_db(self):
         with self._get_conn() as conn:
             conn.execute("""
@@ -31,7 +31,8 @@ class GameDatabase:
                 )
             """)
 
-    def save_new(self, board_size: int, player_board: BoardLogic, ai_board: BoardLogic, difficulty: str):
+    def save_new(self, board_size: int, player_board: BoardLogic,
+                ai_board: BoardLogic, difficulty: str):
         player_board_json = json.dumps(player_board.to_dict())
         ai_board_json = json.dumps(ai_board.to_dict())
         time_now = datetime.now().isoformat()
@@ -72,13 +73,13 @@ class GameDatabase:
             player_board.save_id = ai_board.save_id = row["id"]
 
             return player_board, ai_board, difficulty
-        
+
     def list_saves(self):
         with self._get_conn() as conn:
             return [dict(r) for r in conn.execute(
                 "SELECT id, last_played_at FROM saved_games ORDER BY last_played_at DESC"
             ).fetchall()]
-        
+
     def delete(self, save_id: int):
         with self._get_conn() as conn:
             conn.execute("DELETE FROM saved_games WHERE id=?", (save_id,))

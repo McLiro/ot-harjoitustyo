@@ -25,9 +25,9 @@ class ShipLogic:
         if self.hp == 0:
             self.is_sunk = True
             return ("SUNK", self)
-        
+
         return ("HIT", coords)
-    
+
     def create_sprite(self, x, y):
         if self.rotation == "H":
             sprite = Ship(x, y, self.length, 1, 50)
@@ -35,7 +35,7 @@ class ShipLogic:
             sprite = Ship(x, y, 1, self.length, 50)
 
         return sprite
-    
+
     def to_dict(self):
         """Returns a dict of the ship for JSON"""
         return {
@@ -46,7 +46,7 @@ class ShipLogic:
             "hp": self.hp,
             "is_sunk": self.is_sunk
         }
-    
+
     @classmethod
     def from_dict(cls, data: dict):
         return cls(
