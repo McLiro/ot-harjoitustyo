@@ -20,14 +20,13 @@ class Load(State):
         self.previous_button = Button(510, 425, 50, 50, "<", pygame.Color('white'), pygame.Color('whitesmoke'), pygame.Color('black'), pygame.font.Font(None, 30), True)
         self.next_button = Button(770, 425, 50, 50, ">", pygame.Color('white'), pygame.Color('whitesmoke'), pygame.Color('black'), pygame.font.Font(None, 30), True)
 
+        self.delete_button = Button(640, 485, 100, 50, "DELETE", pygame.Color('red'), pygame.Color('red2'), pygame.Color('white'), pygame.font.Font(None, 30), True)
 
-
-        self.ui_elements = [
-            self.selected_file,
-            self.load_button,
-            self.previous_button,
-            self.next_button
-        ]
+        self.ui_elements = [self.selected_file,
+                            self.load_button,
+                            self.previous_button,
+                            self.next_button,
+                            self.delete_button]
 
     def handle_events(self, events):
         for event in events:
@@ -41,6 +40,8 @@ class Load(State):
                     self.previous()
                 elif self.next_button.rect.collidepoint(event.pos):
                     self.next()
+                elif self.delete_button.rect.collidepoint(event.pos):
+                    self.delete()
 
     def create_labels(self):
         labels = []
@@ -65,4 +66,22 @@ class Load(State):
 
         self.selected_file = self.labels[self.file_number]
 
+        self.ui_elements[0] = self.selected_file
+
+    def delete(self):
+        file = self.save_file_list[self.file_number]
+        file_id = file['id']
+        self.database.delete(file_id)
+
+        self.save_file_list = self.database.list_saves()
+        self.labels = self.create_labels()
+
+        if len(self.save_file_list) == 0:
+            from .menu import Menu
+            self.next_state = Menu(self.game)
+            self.done = True
+            return
+
+        self.file_number -= 1
+        self.selected_file = self.labels[self.file_number]
         self.ui_elements[0] = self.selected_file

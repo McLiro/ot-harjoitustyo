@@ -1,5 +1,5 @@
 import pygame
-from sprites.ui import Grid, Ship, HitMarker
+from sprites.ui import Grid, Ship, HitMarker, Button
 from logic import BoardLogic, ShipLogic, Easy, Medium
 from .base import State
 from .game_over import GameOver
@@ -16,9 +16,11 @@ class Game(State):
         self.grid_size = 50
         self.player_grid = Grid(50, 50, self.grid_size, white)
         self.ai_grid = Grid(750, 50, self.grid_size, white)
+        self.main_menu_button = Button(650, 625, 200, 100, "MAIN MENU", white, pygame.Color('whitesmoke'), pygame.Color('black'), pygame.font.Font(None, 30), True)
 
         self.ui_elements = [self.player_grid,
-                            self.ai_grid]
+                            self.ai_grid,
+                            self.main_menu_button]
 
         self.hitmarkers = []
 
@@ -54,6 +56,11 @@ class Game(State):
     def handle_events(self, events):
         for event in events:
             if event.type == pygame.MOUSEBUTTONDOWN:
+                if self.main_menu_button.rect.collidepoint(event.pos):
+                    from .menu import Menu
+                    self.next_state = Menu(self.game)
+                    self.done = True
+
                 coords = self.get_coords(event.pos)
                 pixels = self.get_ai_grid_pixels(coords[0], coords[1])
                 self.handle_shooting(coords, pixels)
@@ -64,6 +71,7 @@ class Game(State):
         else:
             self.next_state = GameOver(self.game, "PLAYER")
 
+        self.database.delete(self.player_board.save_id)
         self.done = True
 
     def handle_shooting(self, coords, pixels):
