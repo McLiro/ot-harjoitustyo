@@ -18,7 +18,6 @@ class Difficulty(State):
         self.label = Label(640, 200, "Choose difficulty:", font, white)
         self.easy = Button(640, 250, 200, 50, "EASY", white, whitesmoke, black, font, True)
         self.medium = Button(640, 310, 200, 50, "MEDIUM", white, whitesmoke, black, font, True)
-        #self.hard = Button(640, 370, 200, 50, "HARD", white, whitesmoke, black, font, True)
 
         self.ui_elements = [
             self.label,
