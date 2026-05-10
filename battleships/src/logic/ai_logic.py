@@ -108,7 +108,7 @@ class Medium(Ai):
                 self.target_stack.append(coords)
             else:
                 self.target_stack.append(coords)
-        elif result == "SINK":
+        elif result == "SUNK":
             pass
 
     def process_sinking(self, coords: list):
